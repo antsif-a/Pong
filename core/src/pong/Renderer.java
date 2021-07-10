@@ -24,9 +24,6 @@ class Renderer implements ApplicationListener {
 
     @Override
     public void update() {
-        camera.width = graphics.getWidth();
-        camera.height = graphics.getHeight();
-
         camera.update();
 
         graphics.clear(Color.black);
@@ -39,7 +36,11 @@ class Renderer implements ApplicationListener {
         shape(objects.ball);
 
         Draw.flush();
-        Draw.reset();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        camera.resize(width, height);
     }
 
     private <T extends Shape2D> void shape(T obj) {

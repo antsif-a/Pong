@@ -4,7 +4,6 @@ import arc.*;
 import arc.assets.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
-import arc.util.*;
 
 import static arc.Core.*;
 
