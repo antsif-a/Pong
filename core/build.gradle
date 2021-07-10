@@ -1,0 +1,10 @@
+import arc.packer.TexturePacker
+
+sourceSets.main.java.srcDirs = ['src']
+sourceSets.main.resources.srcDirs = ['assets']
+
+task pack {
+	doLast {
+		TexturePacker.process("$rootDir/core/assets-raw/sprites/", "$rootDir/core/assets/sprites/", 'sprites.atlas')
+	}
+}

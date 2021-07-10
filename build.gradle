@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://maven.google.com/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
+    }
+
+    ext {
+        arcVersion = 'v126.2'
+
+        arcModule = { String name ->
+            if(name.contains(':')) name = name.split(':')[name.split(':').length - 1]
+            return "com.github.Anuken.Arc:$name:$arcVersion"
+        }
+    }
+
+    dependencies {
+        classpath arcModule('arc-core')
+        classpath arcModule('extensions:packer')
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    ext {
+        appName = 'Pong'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://maven.google.com/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += '--enable-preview'
+    }
+
+    tasks.withType(JavaExec) {
+        jvmArgs += '--enable-preview'
+    }
+}
+
+project(':core') {
+    apply plugin: 'java-library'
+
+    dependencies {
+        api arcModule('arc-core')
+        implementation gradleApi()
+    }
+}
+
+project(':desktop') {
+    dependencies {
+        implementation project(':core')
+		implementation arcModule('backends:backend-sdl')
+		implementation arcModule('natives:natives-desktop')
+		implementation arcModule('natives:natives-freetype-desktop')
+    }
+}

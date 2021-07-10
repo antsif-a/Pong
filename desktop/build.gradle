@@ -1,0 +1,30 @@
+sourceSets.main.java.srcDirs = ['src']
+
+project.ext.mainClassName = 'pong.desktop.DesktopLauncher'
+project.ext.assetsDir = new File('../core/assets')
+
+task run(dependsOn: classes, type: JavaExec) {
+    mainClass.set project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue true
+
+    if (System.getProperty('os.name').toLowerCase().contains('mac')) {
+        jvmArgs '-XstartOnFirstThread'
+    }
+}
+
+task dist(type: Jar, dependsOn: configurations.runtimeClasspath) {
+    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.main.output.resourcesDir)
+    from files(project.assetsDir)
+    from {
+        configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName.set "${appName}.jar"
+
+    manifest.attributes 'Main-Class': project.mainClassName
+}
