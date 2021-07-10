@@ -49,15 +49,14 @@ project(':core') {
 
     dependencies {
         api arcModule('arc-core')
-        implementation gradleApi()
     }
 }
 
 project(':desktop') {
     dependencies {
         implementation project(':core')
-		implementation arcModule('backends:backend-sdl')
-		implementation arcModule('natives:natives-desktop')
-		implementation arcModule('natives:natives-freetype-desktop')
+        implementation arcModule('backends:backend-sdl')
+        implementation arcModule('natives:natives-desktop')
+        implementation arcModule('natives:natives-freetype-desktop')
     }
 }
