@@ -7,7 +7,7 @@ buildscript {
     }
 
     ext {
-        arcVersion = 'v126.2'
+        arcVersion = '52cd02b71205949b68e9b620b6a02fed3622bac0'
 
         arcModule = { String name ->
             if(name.contains(':')) name = name.split(':')[name.split(':').length - 1]
@@ -49,6 +49,7 @@ project(':core') {
 
     dependencies {
         api arcModule('arc-core')
+        api arcModule('extensions:freetype')
     }
 }
 
@@ -56,6 +57,7 @@ project(':desktop') {
     dependencies {
         implementation project(':core')
         implementation arcModule('backends:backend-sdl')
+
         implementation arcModule('natives:natives-desktop')
         implementation arcModule('natives:natives-freetype-desktop')
     }

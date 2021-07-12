@@ -1,20 +1,14 @@
 package pong;
 
-import arc.*;
 import arc.input.*;
 import arc.math.*;
 import arc.math.geom.*;
 
 import static arc.Core.*;
 
-class Logic implements InputProcessor, ApplicationListener {
-    private final Pong.PongObjects objects;
+class Logic extends Pong.PongListener implements InputProcessor {
     private int ballAngle = 45;
     private boolean paused = true;
-
-    public Logic(Pong.PongObjects objects) {
-        this.objects = objects;
-    }
 
     @Override
     public void init() {
@@ -40,8 +34,15 @@ class Logic implements InputProcessor, ApplicationListener {
         objects.ball.x = objects.ball.x + Mathf.cosDeg(ballAngle) * 5;
         objects.ball.y = objects.ball.y + Mathf.sinDeg(ballAngle) * 5;
 
+        // check for goals
         if (objects.ball.x <= objects.leftGoal.x + objects.leftGoal.width ||
                 objects.ball.x >= objects.rightGoal.x - objects.rightGoal.width) {
+            if (objects.ball.x <= objects.leftGoal.x + objects.leftGoal.width) {
+                objects.score[1]++;
+            } else {
+                objects.score[0]++;
+            }
+
             resetState();
         }
 
@@ -56,9 +57,9 @@ class Logic implements InputProcessor, ApplicationListener {
         }
 
         // collide with left player
-        if ((objects.ball.x < objects.leftPlayer.x + objects.leftPlayer.width * 2
+        if (objects.ball.x < objects.leftPlayer.x + objects.leftPlayer.width * 2
                 && objects.ball.y < objects.leftPlayer.y + objects.leftPlayer.height / 2
-                && objects.ball.y > objects.leftPlayer.y - objects.leftPlayer.height / 2)) {
+                && objects.ball.y > objects.leftPlayer.y - objects.leftPlayer.height / 2) {
             ballAngle += 90;
         }
 

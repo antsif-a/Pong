@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		config.title = "Pong";
 		config.width = 1000;
 		config.height = 700;
-		config.maximized = true;
+		config.resizable = false;
 
 		new SdlApplication(new Pong(), config);
 	}

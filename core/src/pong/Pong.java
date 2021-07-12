@@ -15,15 +15,23 @@ public class Pong extends ApplicationCore {
 		batch = new SpriteBatch();
 		assets = new AssetManager();
 
-		atlas = new TextureAtlas("sprites/sprites.atlas");
+		atlas = new TextureAtlas("sprites/sprites.aatls");
 
 		objects.init();
 
-		add(new Renderer(objects));
-		add(new Logic(objects));
+		add(new Renderer());
+		add(new UI());
+		add(new Logic());
+	}
+
+	public void add(PongListener listener) {
+		super.add(listener);
+		listener.setObjects(objects);
 	}
 
 	static class PongObjects {
+		long[] score = new long[]{0, 0};
+
 		Rect leftGoal;
 		Rect leftPlayer;
 		Rect rightGoal;
@@ -37,6 +45,14 @@ public class Pong extends ApplicationCore {
 			rightPlayer = new Rect(graphics.getWidth() - rightGoal.width - 40, graphics.getHeight() / 2f, 10, 100);
 
 			ball = new Circle(graphics.getWidth() / 2f, graphics.getHeight() / 2f, 10);
+		}
+	}
+
+	static abstract class PongListener implements ApplicationListener {
+		protected PongObjects objects;
+
+		public void setObjects(PongObjects objects) {
+			this.objects = objects;
 		}
 	}
 }
