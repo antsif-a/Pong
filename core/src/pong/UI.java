@@ -58,7 +58,12 @@ public class UI extends Pong.PongListener {
         scene.draw();
     }
 
-    static class Fonts {
+    @Override
+    public void resize(int width, int height) {
+        scene.resize(width, height);
+    }
+
+    public static class Fonts {
         private static final String fontsPrefix = "fonts/";
         private static final FreeTypeFontParameter defaultParameter = new FreeTypeFontParameter(){{
             incremental = true;

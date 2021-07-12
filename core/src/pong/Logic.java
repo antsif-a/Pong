@@ -72,6 +72,11 @@ class Logic extends Pong.PongListener implements InputProcessor {
         }
     }
 
+    @Override
+    public void resize(int width, int height) {
+        objects.resize(width, height);
+    }
+
     private void handleInput() {
         if (input.keyDown(KeyCode.w)) {
             movePlayer(objects.leftPlayer, 10);

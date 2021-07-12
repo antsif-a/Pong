@@ -10,17 +10,17 @@ class Renderer extends Pong.PongListener {
 
     public Renderer() {
         camera = new Camera();
-        camera.position.set(camera.project(0, 0));
     }
 
     @Override
     public void init() {
         Core.camera = camera;
-        Core.camera.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
     }
 
     @Override
     public void update() {
+        camera.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+        camera.position.set(Core.graphics.getWidth() / 2f, Core.graphics.getHeight() / 2f);
         camera.update();
 
         Core.graphics.clear(Color.black);
@@ -35,6 +35,12 @@ class Renderer extends Pong.PongListener {
         shape(objects.ball);
 
         Draw.flush();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        camera.resize(width, height);
+        camera.position.set(width / 2f, height / 2f);
     }
 
     private <T extends Shape2D> void shape(T obj) {
