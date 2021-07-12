@@ -7,7 +7,8 @@ buildscript {
     }
 
     ext {
-        arcVersion = '52cd02b71205949b68e9b620b6a02fed3622bac0'
+        // latest change: https://github.com/Anuken/Arc/pull/67
+        arcVersion = '314bd23cf9b86ef8f70e92104eebfc8bf8c50e3e'
 
         arcModule = { String name ->
             if(name.contains(':')) name = name.split(':')[name.split(':').length - 1]
