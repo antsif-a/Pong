@@ -8,7 +8,6 @@ import static arc.Core.*;
 
 class Logic extends Pong.PongListener implements InputProcessor {
     private int ballAngle = 45;
-    private boolean paused = true;
 
     @Override
     public void init() {
@@ -18,7 +17,7 @@ class Logic extends Pong.PongListener implements InputProcessor {
     @Override
     public boolean keyDown(KeyCode key) {
         if (key == KeyCode.enter) {
-            paused = !paused;
+            state.paused = !state.paused;
         }
 
         return true;
@@ -28,7 +27,7 @@ class Logic extends Pong.PongListener implements InputProcessor {
     public void update() {
         handleInput();
 
-        if (paused) return;
+        if (state.paused) return;
 
         // move ball
         objects.ball.x = objects.ball.x + Mathf.cosDeg(ballAngle) * 5;
@@ -38,12 +37,14 @@ class Logic extends Pong.PongListener implements InputProcessor {
         if (objects.ball.x <= objects.leftGoal.x + objects.leftGoal.width ||
                 objects.ball.x >= objects.rightGoal.x - objects.rightGoal.width) {
             if (objects.ball.x <= objects.leftGoal.x + objects.leftGoal.width) {
-                objects.score[1]++;
+                state.score[1]++;
             } else {
-                objects.score[0]++;
+                state.score[0]++;
             }
 
-            resetState();
+            objects.ball.x = graphics.getWidth() / 2f;
+            objects.ball.y = graphics.getHeight() / 2f;
+            state.paused = true;
         }
 
         final float k = 1.1f;
@@ -83,14 +84,8 @@ class Logic extends Pong.PongListener implements InputProcessor {
         }
 
         if (input.keyDown(KeyCode.escape)) {
-            paused = true;
+            state.paused = true;
         }
-    }
-
-    private void resetState() {
-        paused = true;
-        objects.ball.x = graphics.getWidth() / 2f;
-        objects.ball.y = graphics.getHeight() / 2f;
     }
 
     private void movePlayer(Rect player, int amount) {

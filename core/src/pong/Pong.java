@@ -8,7 +8,13 @@ import arc.math.geom.*;
 import static arc.Core.*;
 
 public class Pong extends ApplicationCore {
-	private final PongObjects objects = new PongObjects();
+	private final PongObjects objects;
+	private final PongState state;
+
+	public Pong() {
+		objects = new PongObjects();
+		state = new PongState();
+	}
 
 	@Override
 	public void setup() {
@@ -25,13 +31,13 @@ public class Pong extends ApplicationCore {
 	}
 
 	public void add(PongListener listener) {
-		super.add(listener);
 		listener.setObjects(objects);
+		listener.setState(state);
+
+		super.add(listener);
 	}
 
 	static class PongObjects {
-		long[] score = new long[]{0, 0};
-
 		Rect leftGoal;
 		Rect leftPlayer;
 		Rect rightGoal;
@@ -48,11 +54,21 @@ public class Pong extends ApplicationCore {
 		}
 	}
 
+	static class PongState {
+		final long[] score = new long[]{0, 0};
+		boolean paused = true;
+	}
+
 	static abstract class PongListener implements ApplicationListener {
 		protected PongObjects objects;
+		protected PongState state;
 
-		public void setObjects(PongObjects objects) {
+		private void setObjects(PongObjects objects) {
 			this.objects = objects;
+		}
+
+		private void setState(PongState state) {
+			this.state = state;
 		}
 	}
 }

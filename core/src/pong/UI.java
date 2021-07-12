@@ -35,7 +35,9 @@ public class UI extends Pong.PongListener {
         scene.table(t -> {
             t.name = "score";
             t.top();
-            t.label(() -> "Score: " + objects.score[0] + ":" + objects.score[1]).padTop(30);
+            t.label(() -> "Score: " + state.score[0] + ":" + state.score[1]).padTop(30);
+            t.row();
+            t.label(() -> "Press Enter to start").padTop(5).visible(() -> state.paused);
         });
     }
 
